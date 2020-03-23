@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "336652115454",
+    "firebase_url": "https://goschedulev30.firebaseio.com",
+    "project_id": "goschedulev30",
+    "storage_bucket": "goschedulev30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336652115454:android:db96c417bba0c274c9b4af",
+        "android_client_info": {
+          "package_name": "com.example.goschedule20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336652115454-4339b927ieilhnukfhph8cbj6kesmmcj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.goschedule20",
+            "certificate_hash": "3a8368a47fd7b7eb89f61df730d7cf1e861e23eb"
+          }
+        },
+        {
+          "client_id": "336652115454-nivsvkpcalbnkav5nnh5ra3he63ckkm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmU0ZCV-FGeYPWMKbE_nv6pwex-vo3zdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336652115454-nivsvkpcalbnkav5nnh5ra3he63ckkm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
