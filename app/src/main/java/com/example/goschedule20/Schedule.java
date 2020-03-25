@@ -36,7 +36,7 @@ public class Schedule extends Fragment {
     ImageButton previousDate, nextDate;
     RelativeLayout layout;
     DatabaseReference reference;
-    String lastName, position, start, end;
+    String lastName, position, date, start, end;
     List<Shift> dailyShift;
     int event = 0, left=0;
 
@@ -97,14 +97,14 @@ public class Schedule extends Fragment {
                     // get the data and store it in variables
                     lastName = ds.child("lastName").getValue(String.class);
                     position = ds.child("position").getValue(String.class);
+                    date = ds.child("date").getValue(String.class);
                     start = ds.child("start").getValue(String.class);
                     end = ds.child("end").getValue(String.class);
 
                     // start and end are in String form, so call function convertToDate to convert it in Date
                     // and set the date in dDate
-                    Date startDate = convertToDate(start);
-                    Date endDate = convertToDate(end);
-                    dDate.setTime(startDate);
+                    Date focusedDate = convertToDate(date);
+                    dDate.setTime(focusedDate);
 
                     int dDay = dDate.get(Calendar.DAY_OF_MONTH);
                     int dMonth = dDate.get(Calendar.MONTH);
@@ -165,6 +165,8 @@ public class Schedule extends Fragment {
 
         return date;
     }
+
+
 
     public void getDailyEmployee(){
 

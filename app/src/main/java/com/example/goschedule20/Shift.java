@@ -17,6 +17,10 @@ public class Shift {
         this.EndTime = end;
 
     }
+
+    public Shift(){
+
+    }
     public String getDay(){
         return Day;
     }
