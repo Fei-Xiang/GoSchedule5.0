@@ -1,5 +1,7 @@
 package com.example.goschedule20;
 
+import java.util.Date;
+
 public class Shift {
 
     private String Day;
@@ -8,7 +10,11 @@ public class Shift {
     private String EndTime;
     private String Position;
 
-    public Shift(){
+    public Shift(String name, String pst, String begin, String end){
+        this.Name = name;
+        this.Position = pst;
+        this.StartTime = begin;
+        this.EndTime = end;
 
     }
     public String getDay(){

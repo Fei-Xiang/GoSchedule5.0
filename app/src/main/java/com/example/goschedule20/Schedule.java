@@ -15,24 +15,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Schedule extends Fragment {
 
-    String date1 = "31-01-1998 22:00";
-    String date2 = "31-01-1998 23:30";
     TextView displayCurrentDate;
     Calendar currentDate = Calendar.getInstance();
     ImageButton previousDate, nextDate;
-
     RelativeLayout layout;
+    DatabaseReference reference;
+    String lastName, position, start, end;
+    List<Shift> dailyShift;
+    int event = 0, left=0;
 
-    int eventIndex;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,35 +49,19 @@ public class Schedule extends Fragment {
         displayCurrentDate = view.findViewById(R.id.current_date);
         previousDate = view.findViewById(R.id.previous);
         nextDate = view.findViewById(R.id.next);
-
         layout = view.findViewById(R.id.relative);
-        eventIndex = layout.getChildCount();
-        Date value1 = getDate(date1);
-        Date value2 = getDate(date2);
+        reference = FirebaseDatabase.getInstance().getReference("Shift");
 
+        //display current date
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
 
-        int blockHeight = getTimeDifferent(value1,value2);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm",  Locale.CANADA);
-        String displayValue1 = formatter.format(value1);
-        //String displayValue2 = formatter.format(value2);
-
-        String[]totalMin = displayValue1.split(":");
-        int hour = Integer.parseInt(totalMin[0]);
-        int mins = Integer.parseInt(totalMin[1]);
-        int topViewMargin = (hour * 60) + mins;
-
-        createView(topViewMargin, blockHeight);
-
+        // move to the next or previous day
         previousDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setPrevious();
             }
         });
-
         nextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,59 +72,191 @@ public class Schedule extends Fragment {
         return view;
     }
 
+    // retrieves the data from data base
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // get the current date and set it in calDate for comparison in the next step
+                Calendar calDate = Calendar.getInstance();
+                Calendar dDate = Calendar.getInstance();
+                calDate.setTime(currentDate.getTime());
+
+                // get dat, month, and year of current date, and store it in integer
+                int calDay = calDate.get(Calendar.DAY_OF_MONTH);
+                int calMonth = calDate.get(Calendar.MONTH);
+                int calYear = calDate.get(Calendar.YEAR);
+
+                // retrieves the data from firebase until none
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    // get the data and store it in variables
+                    lastName = ds.child("lastName").getValue(String.class);
+                    position = ds.child("position").getValue(String.class);
+                    start = ds.child("start").getValue(String.class);
+                    end = ds.child("end").getValue(String.class);
+
+                    // start and end are in String form, so call function convertToDate to convert it in Date
+                    // and set the date in dDate
+                    Date startDate = convertToDate(start);
+                    Date endDate = convertToDate(end);
+                    dDate.setTime(startDate);
+
+                    int dDay = dDate.get(Calendar.DAY_OF_MONTH);
+                    int dMonth = dDate.get(Calendar.MONTH);
+                    int dYear = dDate.get(Calendar.YEAR);
+
+                    // if dDate(date from firebase) is the same date as current date,
+                    // then add to dailyEmp object
+                    if (calDay == dDay && calMonth == dMonth && calYear == dYear) {
+                        dailyShift.add(new Shift(lastName, position, start, end));
+
+                        //dailyShift.add(new Shift(lastName, position, startDate, endDate));
+
+                    }
+                }
+                // for creating block height
+                getDailyEmployee();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void setPrevious(){
         currentDate.add(Calendar.DAY_OF_MONTH, -1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
+        onStart();
     }
 
     private void setNext(){
         currentDate.add(Calendar.DAY_OF_MONTH, 1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
+        onStart();
     }
 
     private String dateFormat(Date date){
+        // convert the Date form to String form in order to display it in TextView
         String dateString;
         return dateString = new SimpleDateFormat("EEEE, d MMMM yyyy", Locale.CANADA).format(date);
+
+    }
+
+    private Date convertToDate(String stringDate){
+
+        // convert String form to Date form in order to calculate time
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.CANADA);
+        Date date = null;
+
+        try{
+            date = format.parse(stringDate);
+
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public void getDailyEmployee(){
+
+        // create the block height of each employee work hours on that day
+        for(Shift object: dailyShift){
+
+            String startDate = object.getStartTime();
+            String endDate = object.getEndTime();
+            //convert String into 'Date' form
+            Date start = convertToDate(startDate);
+            Date end = convertToDate(endDate);
+            String empName = object.getName();
+            String empPosition = object.getPosition();
+
+            // call getTimeDifferent for calculate the duration, and return it to block height
+            int blockHeight = getTimeDifferent(start, end);
+            // call getTimeSection to get the start of block hour
+            getTimeSection(start, blockHeight, empName, empPosition);
+
+        }
+        // set the event on that day to 0, after create all event views
+        event=0;
+        left=0;
     }
 
     private int getTimeDifferent(Date start, Date end){
+
+        // getTime will return the value in long, and convert it to minutes by (x/1000)/60
         long timeDifference = end.getTime() - start.getTime();
         Calendar mCal = Calendar.getInstance();
         mCal.setTimeInMillis(timeDifference);
 
+        // return it in integer
         return (int)((timeDifference/1000)/60);
     }
 
-    public Date getDate(String dateInString){
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.CANADA);
-        Date date = null;
-        try {
-            date = format.parse(dateInString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    private void getTimeSection(Date date, int height, String lastName, String position){
+
+        // first format the current date into String form
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm",  Locale.CANADA);
+        String value = formatter.format(date);
+
+        // split the hour and minute, and convert hour to minutes to find total work hour
+        // and the result value is the start block position
+        String[]totalMin = value.split(":");
+        int hour = Integer.parseInt(totalMin[0]);
+        int mins = Integer.parseInt(totalMin[1]);
+        int topViewMargin = (hour * 60) + mins;
+
+        // pass all necessary info to create the block hour
+        createView(topViewMargin, height, lastName, position);
     }
 
-    private void createView(int margin, int height) {
-        TextView mEventView = new TextView(getActivity().getBaseContext());
+    private void createView(int margin, int height, String name, String position) {
+
+        // first declare textview for holding the information that will be presented eg. name, position
+        TextView mEventView = new TextView(getContext());
+        // create relative layout to display the block hour
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        // creating the top block using margin and get the mobile size by calling getDisplayMetrics().density,
+        // then the block will show at the same spot regarding to the size of devices.
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lParam.topMargin = (int)(margin* Resources.getSystem().getDisplayMetrics().density);
-        lParam.leftMargin = 25;
+        lParam.topMargin = (int)(margin*Resources.getSystem().getDisplayMetrics().density);
+
+
+        // set left margin to make a space between time section, for many events
+        if(event/2==0){
+            left += 25;
+        }
+        else if(event/2!=0){
+            left += 150;
+        }
+
+        lParam.leftMargin = left;
         mEventView.setLayoutParams(lParam);
         mEventView.setPadding(25, 0, 25, 0);
 
+        // set height of the block using total work hours, and set the width of the block
         mEventView.setHeight((int)(height*Resources.getSystem().getDisplayMetrics().density));
         mEventView.setWidth(150);
         mEventView.setGravity(0x11);
 
+        // decoration the block and display text inside.
         mEventView.setTextColor(Color.parseColor("#ffffff"));
-        mEventView.setText("Nuke");
+        mEventView.setText(name+" ("+position+" )");
         mEventView.setBackgroundColor(Color.parseColor("#000000"));
         layout.addView(mEventView);
+        event++;
     }
+
+
 }
