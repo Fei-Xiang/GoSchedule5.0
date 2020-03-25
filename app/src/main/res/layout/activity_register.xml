@@ -13,7 +13,7 @@
         android:fontFamily="cursive"
         android:text="GoSchedule"
         android:textColor="#FFFFFF"
-        android:textSize="80sp"
+        android:textSize="90sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

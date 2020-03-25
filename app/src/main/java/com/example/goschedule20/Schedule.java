@@ -50,7 +50,7 @@ public class Schedule extends Fragment {
         previousDate = view.findViewById(R.id.previous);
         nextDate = view.findViewById(R.id.next);
         layout = view.findViewById(R.id.relative);
-        reference = FirebaseDatabase.getInstance().getReference("Shift");
+        reference = FirebaseDatabase.getInstance().getReference("Shifts");
 
         //display current date
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
@@ -95,11 +95,11 @@ public class Schedule extends Fragment {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     // get the data and store it in variables
-                    lastName = ds.child("lastName").getValue(String.class);
+                    lastName = ds.child("name").getValue(String.class);
                     position = ds.child("position").getValue(String.class);
-                    date = ds.child("date").getValue(String.class);
-                    start = ds.child("start").getValue(String.class);
-                    end = ds.child("end").getValue(String.class);
+                    date = ds.child("day").getValue(String.class);
+                    start = ds.child("startTime").getValue(String.class);
+                    end = ds.child("endTime").getValue(String.class);
 
                     // start and end are in String form, so call function convertToDate to convert it in Date
                     // and set the date in dDate
