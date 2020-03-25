@@ -10,12 +10,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
@@ -64,12 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.container_fragment,new Schedule());
             fragmentTransaction.commit();
         }
-        /*if(item.getItemId() == R.id.profile) {
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new Contacts());
-            fragmentTransaction.commit();
-        }*/
         if(item.getItemId() == R.id.contacts) {
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
@@ -87,6 +83,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_fragment,new CreateShift());
             fragmentTransaction.commit();
+        }
+        /*if(item.getItemId() == R.id.profile) {
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment,new Contacts());
+            fragmentTransaction.commit();
+        }*/
+        if(item.getItemId() == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();//Logout
+            startActivity(new Intent(getApplicationContext(),Login.class));
+            finish();
         }
         return true;
     }
