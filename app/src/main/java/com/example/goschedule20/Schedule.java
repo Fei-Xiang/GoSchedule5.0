@@ -46,17 +46,17 @@ public class Schedule extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.schedule, container, false);
 
-        /*
+
         displayCurrentDate = view.findViewById(R.id.current_date);
         previousDate = view.findViewById(R.id.previous);
         nextDate = view.findViewById(R.id.next);
         layout = view.findViewById(R.id.relative);
         reference = FirebaseDatabase.getInstance().getReference("Shifts");
 
-        //display current date
+        //Display current date
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
 
-        // move to the next or previous day
+        //Move to the next or previous day
         previousDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,6 @@ public class Schedule extends Fragment {
                 setNext();
             }
         });
-       */
         return view;
     }
 
@@ -132,7 +131,7 @@ public class Schedule extends Fragment {
         });
     }
 
-
+    */
     private void setPrevious(){
         currentDate.add(Calendar.DAY_OF_MONTH, -1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
@@ -145,13 +144,14 @@ public class Schedule extends Fragment {
         onStart();
     }
 
+
     private String dateFormat(Date date){
         // convert the Date form to String form in order to display it in TextView
         String dateString;
         return dateString = new SimpleDateFormat("EEEE, d MMMM yyyy", Locale.CANADA).format(date);
 
     }
-
+     /*
     private Date convertToDate(String stringDate){
 
         // convert String form to Date form in order to calculate time
