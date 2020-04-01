@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.container_fragment,new CreateShift());
             fragmentTransaction.commit();
         }
-        /*if(item.getItemId() == R.id.profile) {
+        if(item.getItemId() == R.id.profile) {
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new Contacts());
+            fragmentTransaction.replace(R.id.container_fragment,new Profile());
             fragmentTransaction.commit();
-        }*/
+        }
         if(item.getItemId() == R.id.logout) {
             FirebaseAuth.getInstance().signOut();//Logout
             startActivity(new Intent(getApplicationContext(),Login.class));

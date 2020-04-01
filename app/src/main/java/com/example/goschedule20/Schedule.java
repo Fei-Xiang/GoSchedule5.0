@@ -46,6 +46,7 @@ public class Schedule extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.schedule, container, false);
 
+        /*
         displayCurrentDate = view.findViewById(R.id.current_date);
         previousDate = view.findViewById(R.id.previous);
         nextDate = view.findViewById(R.id.next);
@@ -68,10 +69,11 @@ public class Schedule extends Fragment {
                 setNext();
             }
         });
-
+       */
         return view;
     }
 
+    /*
     // retrieves the data from data base
     @Override
     public void onStart() {
@@ -258,7 +260,5 @@ public class Schedule extends Fragment {
         mEventView.setBackgroundColor(Color.parseColor("#000000"));
         layout.addView(mEventView);
         event++;
-    }
-
-
+    }*/
 }
