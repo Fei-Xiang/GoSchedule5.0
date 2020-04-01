@@ -31,7 +31,7 @@ public class Profile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.profile, container, false);
 
-        userName = view.findViewById(R.id.userName);
+        userName = view.findViewById(R.id.userNameHeader);
         userPhoneNumber = view.findViewById(R.id.userPhoneNumber);
         userEmail = view.findViewById(R.id.userEmail);
 

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.goschedule20.Profile"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.goschedule20.Profile">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -16,9 +15,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="49dp"
             android:background="@drawable/gradientbackground"
             android:orientation="vertical">
 
@@ -31,12 +30,11 @@
                 android:src="@drawable/ic_photocircle" />
 
             <TextView
-                android:id="@+id/userName"
+                android:id="@+id/userNameHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="Ankush"
                 android:textColor="#fff"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -56,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.239">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,8 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="6dp"
-                android:text="ankushgautam1214@gmail.com@gmail.com"
+                android:paddingLeft="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -114,7 +111,7 @@
                 android:src="@drawable/ic_comment" />
 
             <TextView
-                android:id="@+id/userPosition"
+                android:id="@+id/userPositionHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -136,5 +133,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

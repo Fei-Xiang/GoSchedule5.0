@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddEmployee extends Fragment {
 
@@ -35,6 +37,10 @@ public class AddEmployee extends Fragment {
     Spinner startTimeSunday,endTimeSunday;
 
     Button submit;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    String userID;
 
     DatabaseReference reff;
     Employee employee;
