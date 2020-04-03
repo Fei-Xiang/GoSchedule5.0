@@ -45,6 +45,7 @@ public class Schedule extends Fragment {
     String lastName, position, date, start, end;
     List<Shift> dailyShift = new ArrayList<>();
     int event = 0, left=0;
+    int eventIndex;
 
     @Nullable
     @Override
@@ -57,6 +58,7 @@ public class Schedule extends Fragment {
         layout = view.findViewById(R.id.relative);
         reference = FirebaseDatabase.getInstance().getReference();
         shifts = reference.child("Shifts");
+        eventIndex = layout.getChildCount();
 
         //Display current date
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
@@ -89,9 +91,9 @@ public class Schedule extends Fragment {
 
                 //Get the current date and set it in calDate for comparison in the next step
                 Calendar calDate = Calendar.getInstance();
-                Calendar dDate = Calendar.getInstance();
                 calDate.setTime(currentDate.getTime());
 
+                Calendar dDate = Calendar.getInstance();
                 //Get day, month, and year of current date, and store it as integer
                 int calDay = calDate.get(Calendar.DAY_OF_MONTH);
                 int calMonth = calDate.get(Calendar.MONTH);
@@ -106,6 +108,10 @@ public class Schedule extends Fragment {
                     date = ds.child("day").getValue(String.class);
                     start = ds.child("startTime").getValue(String.class);
                     end = ds.child("endTime").getValue(String.class);
+
+                    // Get work date from firebase and store it in dDate
+                    Date reminderDate = convertToDate(date);
+                    dDate.setTime(reminderDate);
 
                     //Start and end are in String form, so call function convertToDate to convert it in Date and set the date in dDate
                     int dDay = dDate.get(Calendar.DAY_OF_MONTH);
@@ -133,12 +139,14 @@ public class Schedule extends Fragment {
     }
 
     private void setPrevious(){
+        layout.removeViewAt(eventIndex-1);
         currentDate.add(Calendar.DAY_OF_MONTH, -1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
         onStart();
     }
 
     private void setNext(){
+        layout.removeViewAt(eventIndex-1);
         currentDate.add(Calendar.DAY_OF_MONTH, 1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
         onStart();
@@ -244,7 +252,7 @@ public class Schedule extends Fragment {
             left += 25;
         }
         else if(event/2!=0){
-            left += 150;
+            left += 200;
         }
 
         lParam.leftMargin = left;
@@ -259,8 +267,8 @@ public class Schedule extends Fragment {
         //Decoration the block and display text inside.
         mEventView.setTextColor(Color.parseColor("#ffffff"));
         mEventView.setText(name+" (" + position + " )");
-        mEventView.setBackgroundColor(Color.parseColor("#000000"));
-        layout.addView(mEventView);
+        mEventView.setBackgroundColor(Color.parseColor("#00574B"));
+        layout.addView(mEventView, eventIndex -1);
         event++;
     }
 }
