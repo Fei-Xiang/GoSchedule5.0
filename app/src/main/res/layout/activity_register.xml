@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pic">
@@ -108,7 +107,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/accountPassword2"
+        android:id="@+id/accountPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -117,8 +116,8 @@
         android:background="@color/common_google_signin_btn_text_dark_focused"
         android:ems="10"
         android:fontFamily="sans-serif-smallcaps"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
+        android:hint="Phone Number"
+        android:inputType="textPassword|phone"
         android:padding="10dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
@@ -142,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accountPassword2"
+        app:layout_constraintTop_toBottomOf="@+id/accountPhone"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
