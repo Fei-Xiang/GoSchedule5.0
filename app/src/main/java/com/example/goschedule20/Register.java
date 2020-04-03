@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
-    EditText accountName, accountEmail, accountPassword, accountPassword2;
+    EditText accountName, accountEmail, accountPassword, accountPhone;
     Button register;
     TextView login;
     FirebaseAuth firebaseAuth;
@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
         accountName = findViewById(R.id.accountName);
         accountEmail = findViewById(R.id.accountEmail);
         accountPassword = findViewById(R.id.accountPassword);
-        accountPassword2 = findViewById(R.id.accountPassword2);
+        accountPhone = findViewById(R.id.accountPhone);
         register = findViewById(R.id.accountLogin);
         login = findViewById(R.id.register);
 
@@ -62,6 +62,7 @@ public class Register extends AppCompatActivity {
                 final String email = accountEmail.getText().toString().trim();
                 String password = accountPassword.getText().toString().trim();
                 final String userName = accountName.getText().toString();
+                final String userPhone = accountPhone.getText().toString();
 
                 if(TextUtils.isEmpty(email)){
                     accountEmail.setError("Email is Required.");
@@ -75,6 +76,11 @@ public class Register extends AppCompatActivity {
                     accountPassword.setError("Password must have at least 6 characters.");
                     return;
                 }
+                if(TextUtils.isEmpty(userPhone)){
+                    accountPhone.setError("Phone Number is Required.");
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 //Register the user in firebase
@@ -86,12 +92,13 @@ public class Register extends AppCompatActivity {
                             userID = firebaseAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = firebaseFirestore.collection("user").document(userID);
                             Map<String,Object> user = new HashMap<>();
-                            user.put("fName",userName);
-                            user.put("email",email);
+                            user.put("Name",userName);
+                            user.put("Email",email);
+                            user.put("Phone",userPhone);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(Register.this,"User Created succesfully",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register.this,"User Created successfully",Toast.LENGTH_SHORT).show();
                                 }
                             });
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));

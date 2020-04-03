@@ -8,10 +8,16 @@ public class Week {
     public Week() {
     }
 
-    public Week(String day, String type, String available) {
+    public Week(String day, String type) {
         this.day = day;
         this.type = type;
-        this.available = available;
+        if(type.equals("Not Available")){
+            this.available = "Not Available";
+        }
+        else{
+            this.available = "Available";
+        }
+
     }
 
     public String getDay() {

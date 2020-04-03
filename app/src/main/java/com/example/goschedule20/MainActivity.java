@@ -10,15 +10,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +31,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
+    TextView userName,userPosition;
+
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userName = (TextView) findViewById(R.id.userNameHeader);
+        userPosition = (TextView) findViewById(R.id.userPostionHeader);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open,R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -66,7 +71,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle("Schedule");
         fragmentTransaction.commit();
 
-        //
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        userId = firebaseAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firebaseFirestore.collection("user").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>(){
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+               // userName.setText(documentSnapshot.getString("Name"));
+               // userPosition.setText(documentSnapshot.getString("Position"));
+
+                Log.i("User Name",documentSnapshot.getString("Name"));
+                Log.i("User Position",documentSnapshot.getString("Position"));
+            }
+        });
     }
 
     @Override
