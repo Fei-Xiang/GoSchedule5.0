@@ -21,8 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddEmployee extends Fragment {
 
-    EditText FirstName;
-    EditText LastName;
+    EditText fullName;
     EditText phoneNumber;
     EditText email;
     Spinner position;
@@ -38,10 +37,6 @@ public class AddEmployee extends Fragment {
 
     Button submit;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    String userID;
-
     DatabaseReference reff;
     Employee employee;
 
@@ -50,8 +45,7 @@ public class AddEmployee extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_employee, container, false);
 
-        FirstName = view.findViewById(R.id.firstName);
-        LastName = view.findViewById(R.id.lastName);
+        fullName = view.findViewById(R.id.employeeName);
         phoneNumber = view.findViewById(R.id.phoneNo);
         email = view.findViewById(R.id.email);
         position = view.findViewById(R.id.position);
@@ -261,8 +255,7 @@ public class AddEmployee extends Fragment {
                     sundayAvailability = "Not Available";
                 }
 
-                employee.setFirstName(FirstName.getText().toString().trim());
-                employee.setLastName(LastName.getText().toString().trim());
+                employee.setFullName(fullName.getText().toString().trim());
                 employee.setEmail(email.getText().toString().trim());
                 employee.setPhoneNo(Float.parseFloat(phoneNumber.getText().toString()));
                 employee.setPosition(position.getSelectedItem().toString()) ;
@@ -274,7 +267,7 @@ public class AddEmployee extends Fragment {
                 employee.setSaturdayAvailability(saturdayAvailability);
                 employee.setSundayAvailability(sundayAvailability);
 
-                reff.child(FirstName.getText().toString() + " " + LastName.getText().toString()).setValue(employee);
+                reff.child(fullName.getText().toString()).setValue(employee);
                 Toast.makeText(getActivity().getBaseContext(),"Data is been saved successfully",Toast.LENGTH_LONG).show();
             }
         });

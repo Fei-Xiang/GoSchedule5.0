@@ -2,8 +2,7 @@ package com.example.goschedule20;
 
 public class Employee {
 
-    private String FirstName;
-    private String LastName;
+    private String FullName;
     private String Email;
     private float PhoneNo;
     private String Position;
@@ -17,21 +16,13 @@ public class Employee {
 
     public Employee(){
     }
-    public String getFirstName(){
+    public String getFullName(){
 
-        return FirstName;
+        return FullName;
     }
-    public void setFirstName(String name){
+    public void setFullName(String name){
 
-        FirstName = name;
-    }
-    public String getLastName(){
-
-        return LastName;
-    }
-    public void setLastName(String name){
-
-        LastName = name;
+        FullName = name;
     }
     public float getPhoneNo(){
 

@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    String userId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,22 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle("Schedule");
         fragmentTransaction.commit();
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        userId = firebaseAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(userId);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>(){
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-               // userName.setText(documentSnapshot.getString("Name"));
-               // userPosition.setText(documentSnapshot.getString("Position"));
-
-                Log.i("User Name",documentSnapshot.getString("Name"));
-                Log.i("User Position",documentSnapshot.getString("Position"));
-            }
-        });
     }
 
     @Override

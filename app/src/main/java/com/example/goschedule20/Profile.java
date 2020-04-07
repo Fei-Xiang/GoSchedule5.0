@@ -1,6 +1,7 @@
 package com.example.goschedule20;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class Profile extends Fragment {
 
-    TextView userName, userPhoneNumber, userEmail, userPosition;
+    TextView userName, userPhoneNumber, userEmail, userPosition, setAvailability;
     Button availability;
 
     FirebaseAuth firebaseAuth;
@@ -44,7 +45,17 @@ public class Profile extends Fragment {
         userPosition = view.findViewById(R.id.userPosition);
 
         availability = view.findViewById(R.id.availabilityButton);
+        setAvailability = view.findViewById(R.id.setAvailability);
 
+        setAvailability.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager = getFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment, new AddAvailability());
+                fragmentTransaction.commit();
+            }
+        });
         availability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,17 +71,22 @@ public class Profile extends Fragment {
 
         userId = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference = firebaseFirestore.collection("user").document(userId);
-        documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>(){
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                userName.setText(documentSnapshot.getString("Name"));
-                userEmail.setText(documentSnapshot.getString("Email"));
-                userPhoneNumber.setText(documentSnapshot.getString("Phone"));
-                userPosition.setText(documentSnapshot.getString("Position"));
-                Toast.makeText(getActivity().getBaseContext(), "User defined", Toast.LENGTH_SHORT).show();
-            }
-        });
+        try {
+            DocumentReference documentReference = firebaseFirestore.collection("user").document(userId);
+            documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    userName.setText(documentSnapshot.getString("Name"));
+                    userEmail.setText(documentSnapshot.getString("Email"));
+                    userPhoneNumber.setText(documentSnapshot.getString("Phone"));
+                    userPosition.setText(documentSnapshot.getString("Position"));
+                    Toast.makeText(getActivity().getBaseContext(), "User defined", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        catch(Exception e) {
+            Log.i("Error!","Error: " + e);
+        }
         return view;
     }
 }

@@ -15,14 +15,14 @@
         app:layout_constraintGuide_percent="0.9015048" />
 
     <EditText
-        android:id="@+id/firstName"
+        android:id="@+id/employeeName"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
-        android:hint="First Name"
+        android:hint="Full Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName"
+        app:layout_constraintTop_toBottomOf="@+id/employeeName"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -66,19 +66,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4008208" />
-
-    <EditText
-        android:id="@+id/lastName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:hint="Last Name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/firstName"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -123,9 +110,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/phoneNo"
-        app:layout_constraintTop_toBottomOf="@+id/lastName"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/phoneNo" />
 
     <Spinner
         android:id="@+id/position"

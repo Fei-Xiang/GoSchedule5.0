@@ -1,6 +1,7 @@
 package com.example.goschedule20;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,28 +48,30 @@ public class SeeContact extends Fragment {
         saturday = view.findViewById(R.id.saturday_Times);
         sunday = view.findViewById(R.id.sunday_Times);
 
+
         reff = FirebaseDatabase.getInstance().getReference().child("Employee").child(employee);
+        Log.i("Employee Name", "_"+employee+"_");
         reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                employeeName.setText( dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString());
-                phone.setText(dataSnapshot.child("phoneNo").getValue().toString());
-                email.setText(dataSnapshot.child("email").getValue().toString());
-                position.setText(dataSnapshot.child("position").getValue().toString());
-                monday.setText(dataSnapshot.child("mondayAvailability").getValue().toString());
-                tuesday.setText(dataSnapshot.child("tuesdayAvailability").getValue().toString());
-                wednesday.setText(dataSnapshot.child("wednesdayAvailability").getValue().toString());
-                thursday.setText(dataSnapshot.child("thursdayAvailability").getValue().toString());
-                friday.setText(dataSnapshot.child("fridayAvailability").getValue().toString());
-                saturday.setText(dataSnapshot.child("saturdayAvailability").getValue().toString());
-                sunday.setText(dataSnapshot.child("sundayAvailability").getValue().toString());
-            }
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                  // Log.e("Error!",dataSnapshot.child("email").getValue().toString());
+                  /*  employeeName.setText(dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString());
+                    phone.setText(dataSnapshot.child("phoneNo").getValue().toString());
+                    email.setText(dataSnapshot.child("email").getValue().toString());
+                    position.setText(dataSnapshot.child("position").getValue().toString());
+                    monday.setText(dataSnapshot.child("mondayAvailability").getValue().toString());
+                    tuesday.setText(dataSnapshot.child("tuesdayAvailability").getValue().toString());
+                    wednesday.setText(dataSnapshot.child("wednesdayAvailability").getValue().toString());
+                    thursday.setText(dataSnapshot.child("thursdayAvailability").getValue().toString());
+                    friday.setText(dataSnapshot.child("fridayAvailability").getValue().toString());
+                    saturday.setText(dataSnapshot.child("saturdayAvailability").getValue().toString());
+                    sunday.setText(dataSnapshot.child("sundayAvailability").getValue().toString()); */
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
         return view;
     }
 }
