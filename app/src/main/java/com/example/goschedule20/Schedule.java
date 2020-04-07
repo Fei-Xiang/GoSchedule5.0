@@ -106,9 +106,14 @@ public class Schedule extends Fragment {
                     start = ds.child("startTime").getValue(String.class);
                     end = ds.child("endTime").getValue(String.class);
 
+                    try{
                     // Get work date from firebase and store it in dDate
                     Date reminderDate = convertToDate(date);
-                    dDate.setTime(reminderDate);
+                    dDate.setTime(reminderDate);}
+                    catch(Exception e)
+                    {
+                        Log.d("Error!", "Exception: " + e);
+                    }
 
                     //Start and end are in String form, so call function convertToDate to convert it in Date and set the date in dDate
                     int dDay = dDate.get(Calendar.DAY_OF_MONTH);
