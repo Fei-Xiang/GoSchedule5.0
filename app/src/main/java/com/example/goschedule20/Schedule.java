@@ -213,8 +213,6 @@ public class Schedule extends Fragment {
             getTimeSection(startTime, blockHeight, empName, empPosition);
 
         }
-        //set the event on that day to 0, after create all event views
-
         left=0;
     }
 
