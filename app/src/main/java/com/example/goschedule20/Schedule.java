@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -120,6 +121,7 @@ public class Schedule extends Fragment {
                     int dMonth = dDate.get(Calendar.MONTH);
                     int dYear = dDate.get(Calendar.YEAR);
 
+
                     //If dDate(date from firebase) is the same date as current date, then add to dailyEmp object
                     if (calDay == dDay && calMonth == dMonth && calYear == dYear) {
                          dailyShift.add(new Shift(lastName, position, start, end));
@@ -141,16 +143,37 @@ public class Schedule extends Fragment {
     }
 
     private void setPrevious(){
-        layout.removeViewAt(eventIndex-1);
+
+        if(event>0){
+            do{
+
+                layout.removeViewAt(eventIndex-1);
+                event--;
+            }while(event>0);
+        }
+
         currentDate.add(Calendar.DAY_OF_MONTH, -1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
+        dailyShift.clear();
+        event=0;
         onStart();
     }
 
     private void setNext(){
-        layout.removeViewAt(eventIndex-1);
+
+        if(event>0){
+            do{
+
+                layout.removeViewAt(eventIndex-1);
+                event--;
+            }while(event>0);
+
+        }
+
         currentDate.add(Calendar.DAY_OF_MONTH, 1);
         displayCurrentDate.setText(dateFormat(currentDate.getTime()));
+        dailyShift.clear();
+        event=0;
         onStart();
     }
 
@@ -191,7 +214,7 @@ public class Schedule extends Fragment {
 
         }
         //set the event on that day to 0, after create all event views
-        event=0;
+
         left=0;
     }
 
