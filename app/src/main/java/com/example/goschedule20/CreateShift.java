@@ -56,7 +56,7 @@ public class CreateShift extends Fragment {
                 final List<String> areas = new ArrayList<String>();
 
                 for (DataSnapshot areaSnapshot: dataSnapshot.getChildren()) {
-                        String name = areaSnapshot.child("firstName").getValue(String.class) + " " + areaSnapshot.child("lastName").getValue(String.class);
+                        String name = areaSnapshot.child("fullName").getValue(String.class);
                         areas.add(name);
                 }
                 ArrayAdapter<String> areasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, areas);
