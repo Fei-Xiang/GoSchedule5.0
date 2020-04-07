@@ -26,13 +26,10 @@ public class Contacts extends Fragment {
 
     DatabaseReference reff;
     DatabaseReference employees;
-    ListView instores,drivers;
+    ListView contacts;
 
-    ArrayList<String> arrayInstores = new ArrayList<>();
-    ArrayAdapter<String> adapterInstores;
-
-    ArrayList<String> arrayDrivers = new ArrayList<>();
-    ArrayAdapter<String> adapterDrivers;
+    ArrayList<String> arrayContacts = new ArrayList<>();
+    ArrayAdapter<String> adapterContacts;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -42,13 +39,11 @@ public class Contacts extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts, container, false);
 
-        adapterInstores = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, arrayInstores);
-        instores = view.findViewById(R.id.instoreEmployees);
-        instores.setAdapter(adapterInstores);
+        adapterContacts = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, arrayContacts);
+        contacts = view.findViewById(R.id.instoreEmployees);
+        contacts.setAdapter(adapterContacts);
 
-        adapterDrivers = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, arrayDrivers);
-        drivers = view.findViewById(R.id.driverEmployees);
-        drivers.setAdapter(adapterDrivers);
+
 
         reff = FirebaseDatabase.getInstance().getReference();
         employees = reff.child("Employee");
@@ -57,19 +52,10 @@ public class Contacts extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if(ds.child("position").getValue(String.class).equals("Instore")) {
-                        String firstName = ds.child("firstName").getValue(String.class);
-                        String lastName = ds.child("lastName").getValue(String.class);
-                        arrayInstores.add(firstName + " " + lastName);
-                        adapterInstores.notifyDataSetChanged();
+                        String fullName = ds.child("fullName").getValue(String.class);
+                        arrayContacts.add(fullName);
+                        adapterContacts.notifyDataSetChanged();
                     }
-                    else if(ds.child("position").getValue(String.class).equals("Driver")){
-                        String firstName = ds.child("firstName").getValue(String.class);
-                        String lastName = ds.child("lastName").getValue(String.class);
-                        arrayDrivers.add(firstName + " " + lastName);
-                        adapterDrivers.notifyDataSetChanged();
-                    }
-                }
             }
 
             @Override
@@ -79,11 +65,10 @@ public class Contacts extends Fragment {
         };
         employees.addListenerForSingleValueEvent(eventListener);
 
-        instores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = (String) instores.getItemAtPosition(i);
-
+                String name = (String) contacts.getItemAtPosition(i);
                 SeeContact fragment = new SeeContact();
                 Bundle bundle = new Bundle();
                 bundle.putString("EmployeeName",name);
@@ -94,23 +79,6 @@ public class Contacts extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
-        drivers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = (String) drivers.getItemAtPosition(i);
-
-                SeeContact fragment = new SeeContact();
-                Bundle bundle = new Bundle();
-                bundle.putString("EmployeeName",name);
-                fragment.setArguments(bundle);
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment, fragment);
-                fragmentTransaction.commit();
-            }
-        });
-
         return view;
     }
 }

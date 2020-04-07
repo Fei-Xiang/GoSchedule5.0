@@ -49,13 +49,12 @@ public class SeeContact extends Fragment {
         sunday = view.findViewById(R.id.sunday_Times);
 
 
+
         reff = FirebaseDatabase.getInstance().getReference().child("Employee").child(employee);
-        Log.i("Employee Name", "_"+employee+"_");
         reff.addValueEventListener(new ValueEventListener() {
-                @Override
+             @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                  // Log.e("Error!",dataSnapshot.child("email").getValue().toString());
-                  /*  employeeName.setText(dataSnapshot.child("firstName").getValue().toString() + " " + dataSnapshot.child("lastName").getValue().toString());
+                    employeeName.setText(dataSnapshot.child("fullName").getValue(String.class));
                     phone.setText(dataSnapshot.child("phoneNo").getValue().toString());
                     email.setText(dataSnapshot.child("email").getValue().toString());
                     position.setText(dataSnapshot.child("position").getValue().toString());
@@ -65,7 +64,7 @@ public class SeeContact extends Fragment {
                     thursday.setText(dataSnapshot.child("thursdayAvailability").getValue().toString());
                     friday.setText(dataSnapshot.child("fridayAvailability").getValue().toString());
                     saturday.setText(dataSnapshot.child("saturdayAvailability").getValue().toString());
-                    sunday.setText(dataSnapshot.child("sundayAvailability").getValue().toString()); */
+                    sunday.setText(dataSnapshot.child("sundayAvailability").getValue().toString());
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

@@ -192,7 +192,6 @@ public class AddEmployee extends Fragment {
         endTimeSunday.setEnabled(false);
 
         //End of Connection
-
         submit = view.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
